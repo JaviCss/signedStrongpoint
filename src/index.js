@@ -10,18 +10,18 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 //routes
 app.get('/sign', (req, res) => {
-  res.send('hello')
+  res.send('hello pong')
   //res.json()
 })
 app.post('/sign.js', (req, res) => {
-  const { domainBase, account_id, path, pathEncoded } = req.body
+  const { domainBase, account_id, path, pathEncoded, method } = req.body
   const { consumeri, consumers, tokeni, tokens } = req.headers
   console.log(account_id)
   console.log('consumeri: ', consumeri)
   console.log('consumers: ', consumers)
   console.log('tokeni: ', tokeni)
   console.log('tokens: ', tokens)
-  let dataSign = serviceNestsuite(domainBase, account_id, consumeri, consumers, tokeni, tokens, path, pathEncoded)
+  let dataSign = serviceNestsuite(domainBase, account_id, consumeri, consumers, tokeni, tokens, path, pathEncoded, method)
     res.json(dataSign) 
     console.log(pathEncoded)
     console.log(dataSign)
@@ -38,7 +38,8 @@ function serviceNestsuite(
   token_id,
   token_secret,
   path,
-  pathEncoded
+  pathEncoded,
+  method
 ) {
  
   var restUrl = domainBase + path
@@ -49,12 +50,13 @@ function serviceNestsuite(
     consumer_key,
     consumer_secret,
     token_id,
-    token_secret
+    token_secret,
+    method
   )
   let urln = domainBase + pathEncoded
   let options = {
     url: urln,
-    type: 'GET',
+    type: method,
     headers: headerWithRealm,
     cors: false,
     contentType: 'application/json',
