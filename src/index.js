@@ -25,7 +25,6 @@ app.post('/sign.js', (req, res) => {
     res.json(dataSign) 
     console.log(pathEncoded)
     console.log(dataSign)
-
 })
 //start
 app.listen(app.get('port'), () => {})
